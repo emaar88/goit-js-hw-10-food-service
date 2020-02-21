@@ -16,39 +16,29 @@ const ourTheme = document.querySelector('body');
 const switchTheme = document.querySelector('input.js-switch-input');
 
 function checkedFlag() {
-  ourTheme.classList.add('dark');
-  ourTheme.classList.remove('light');
-  localStorage.setItem('theme', 'dark');
-}
-
-function unCheckedFlag() {
+  if (switchTheme.checked) {
+    ourTheme.classList.add('dark');
+    ourTheme.classList.remove('light');
+    return localStorage.setItem('theme', 'dark');
+  }
   ourTheme.classList.add('light');
   ourTheme.classList.remove('dark');
-  localStorage.setItem('theme', 'light');
+  return localStorage.setItem('theme', 'light');
 }
 
 function saveOurTheme() {
   if (localStorage.getItem('theme') === 'dark') {
-    switchTheme.checked = true;
     checkedFlag();
-  } else {
-    switchTheme.checked = false;
-    unCheckedFlag();
+    return (switchTheme.checked = true) && checkedFlag();
   }
-}
-
-function changeTheme() {
-  if (switchTheme.checked) {
-    checkedFlag();
-  } else {
-    unCheckedFlag();
-  }
+  checkedFlag();
+  return (switchTheme.checked = false);
 }
 
 const varTheme = JSON.stringify(switchTheme);
 
 console.log(varTheme);
 
-switchTheme.addEventListener('change', changeTheme);
+switchTheme.addEventListener('change', checkedFlag);
 
 window.addEventListener('DOMContentLoaded', saveOurTheme);
